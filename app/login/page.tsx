@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { login } from '@/lib/api';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('admin@chaishots.test');
@@ -13,27 +14,23 @@ export default function LoginPage() {
     setError('');
     setToken('');
 
+    // This is effectively your handleSubmit logic, but actually used:
+    const formData = { email, password };
+
     try {
-      const res = await fetch('http://localhost:4000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.message || `Error: ${res.status}`);
-        return;
-      }
-
-      const data = await res.json();
+      const data = await login(formData); // uses NEXT_PUBLIC_API_BASE_URL
 
       // ✅ Save token + redirect
       localStorage.setItem('accessToken', data.accessToken);
       setToken(data.accessToken);
       window.location.href = '/lessons';
-    } catch {
-      setError('Network error');
+    } catch (err: any) {
+      // If login throws or backend returns error, show something
+      const message =
+        err?.message && typeof err.message === 'string'
+          ? err.message
+          : 'Network or server error';
+      setError(message);
     }
   }
 
@@ -154,24 +151,34 @@ export default function LoginPage() {
           </form>
 
           {error && (
-            <p style={{ color: '#dc2626', marginTop: 16, textAlign: 'center' }}>
+            <p
+              style={{
+                color: '#dc2626',
+                marginTop: 16,
+                textAlign: 'center',
+              }}
+            >
               {error}
             </p>
           )}
 
-          {/* (Optional) Token debug – kept, not removed */}
           {token && (
             <div
               style={{
                 marginTop: 20,
-                background: '#f1f5f9',
+                background: '#f1f59',
                 padding: 12,
                 borderRadius: 8,
                 fontSize: 12,
               }}
             >
               <p>Access Token:</p>
-              <textarea rows={3} value={token} readOnly style={{ width: '100%' }} />
+              <textarea
+                rows={3}
+                value={token}
+                readOnly
+                style={{ width: '100%' }}
+              />
             </div>
           )}
         </div>
