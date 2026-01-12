@@ -6,10 +6,6 @@ export async function login(body: any) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-
-  if (!res.ok) {
-    throw new Error(`Login failed with status ${res.status}`);
-  }
-
+  if (!res.ok) throw new Error('Login failed');
   return res.json();
 }
