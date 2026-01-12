@@ -1,7 +1,6 @@
 'use client';
-
-import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type Lesson = {
   id: string;
@@ -44,9 +43,10 @@ export default function LessonDetailPage() {
           return;
         }
 
-        const res = await fetch(`http://localhost:4000/lessons/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(`${baseUrl}/lessons/${id}`, {
+  headers: { Authorization: `Bearer ${token}` },
+});
+
 
         if (!res.ok) {
           console.error('API error', res.status);
@@ -106,9 +106,10 @@ export default function LessonDetailPage() {
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/lessons/${id}`, {
-        method: 'PATCH',
-        headers: {
+     const res = await fetch(`${baseUrl}/lessons/${id}`, {
+  method: 'PATCH',
+  headers: {
+
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },

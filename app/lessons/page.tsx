@@ -1,4 +1,6 @@
+
 'use client';
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -155,7 +157,8 @@ export default function LessonsPage() {
           <div style={{ display: 'flex', gap: 14, marginBottom: 24 }}>
             <button
               onClick={() =>
-                load('http://localhost:4000/lessons/latest')
+                load(`${baseUrl}/lessons/latest`)
+
               }
               style={{
                 flex: 1,
@@ -172,7 +175,8 @@ export default function LessonsPage() {
             </button>
 
             <button
-              onClick={() => load('http://localhost:4000/lessons')}
+              onClick={() => load(`${baseUrl}/lessons/latest`)
+}
               style={{
                 flex: 1,
                 padding: '14px',

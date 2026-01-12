@@ -1,4 +1,7 @@
+
 'use client';
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
 import { useState } from 'react';
 
@@ -14,7 +17,8 @@ export default function LoginPage() {
     setToken('');
 
     try {
-      const res = await fetch('http://localhost:4000/auth/login', {
+      const res = await fetch(`${baseUrl}/lessons/latest`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

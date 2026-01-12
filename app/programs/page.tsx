@@ -1,4 +1,7 @@
+
 "use client";
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 
 import { useEffect, useState } from "react";
 
@@ -32,8 +35,9 @@ export default function ProgramsPage() {
     setErrorMessage("");
 
     try {
-      const res = await fetch("http://localhost:4000/programs", {
-        headers: { Authorization: `Bearer ${token}` },
+     const res = await fetch(`${baseUrl}/programs`, {
+  headers: { Authorization: `Bearer ${token}` },
+
       });
 
       if (!res.ok) throw new Error("Failed to fetch programs");
