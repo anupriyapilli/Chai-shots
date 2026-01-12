@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { login } from '@/lib/api';
 
 export default function LoginPage() {
@@ -14,18 +14,16 @@ export default function LoginPage() {
     setError('');
     setToken('');
 
-    // This is effectively your handleSubmit logic, but actually used:
     const formData = { email, password };
 
     try {
-      const data = await login(formData); // uses NEXT_PUBLIC_API_BASE_URL
+      const data = await login(formData); // POST /auth/login using NEXT_PUBLIC_API_BASE_URL
 
-      // ✅ Save token + redirect
+      // Save token + go to lessons
       localStorage.setItem('accessToken', data.accessToken);
       setToken(data.accessToken);
       window.location.href = '/lessons';
     } catch (err: any) {
-      // If login throws or backend returns error, show something
       const message =
         err?.message && typeof err.message === 'string'
           ? err.message
@@ -36,7 +34,7 @@ export default function LoginPage() {
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      {/* 🎥 VIDEO BACKGROUND */}
+      {/* VIDEO BACKGROUND */}
       <video
         autoPlay
         loop
@@ -54,7 +52,7 @@ export default function LoginPage() {
         <source src="/bg.mp4.mp4" type="video/mp4" />
       </video>
 
-      {/* 🌫️ OVERLAY */}
+      {/* OVERLAY */}
       <div
         style={{
           position: 'fixed',
@@ -65,7 +63,7 @@ export default function LoginPage() {
         }}
       />
 
-      {/* 🧱 CONTENT */}
+      {/* CONTENT */}
       <div
         style={{
           minHeight: '100vh',
@@ -86,7 +84,7 @@ export default function LoginPage() {
             backdropFilter: 'blur(12px)',
           }}
         >
-          {/* 🟡 LOGO */}
+          {/* LOGO */}
           <div style={{ textAlign: 'center', marginBottom: 24 }}>
             <img
               src="/chaishots-logo.png"
@@ -166,7 +164,7 @@ export default function LoginPage() {
             <div
               style={{
                 marginTop: 20,
-                background: '#f1f59',
+                background: '#f1f5f9',
                 padding: 12,
                 borderRadius: 8,
                 fontSize: 12,
