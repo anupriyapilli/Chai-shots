@@ -6,6 +6,13 @@ export async function login(body: any) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error('Login failed');
+
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => null);
+    const message =
+      errorBody?.message || `Login failed with status ${res.status}`;
+    throw new Error(message);
+  }
+
   return res.json();
 }
