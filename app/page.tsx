@@ -1,8 +1,181 @@
-export default function Home() {
+'use client';
+
+import { useState } from 'react';
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('admin@chaishots.test');
+  const [password, setPassword] = useState('Admin123!');
+  const [token, setToken] = useState('');
+  const [error, setError] = useState('');
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    setToken('');
+
+    try {
+      const res = await fetch('http://localhost:4000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.message || `Error: ${res.status}`);
+        return;
+      }
+
+      const data = await res.json();
+
+      // ✅ Save token + redirect
+      localStorage.setItem('accessToken', data.accessToken);
+      setToken(data.accessToken);
+      window.location.href = '/lessons';
+    } catch {
+      setError('Network error');
+    }
+  }
+
   return (
-    <div>
-      <h1>Home</h1>
-      <a href="/orders">Go to orders</a>
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      {/* 🎥 VIDEO BACKGROUND */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{
+          position: 'fixed',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: -2,
+        }}
+      >
+        <source src="/bg.mp4.mp4" type="video/mp4" />
+      </video>
+
+      {/* 🌫️ OVERLAY */}
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background:
+            'linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2))',
+          zIndex: -1,
+        }}
+      />
+
+      {/* 🧱 CONTENT */}
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 20,
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 420,
+            background: 'rgba(255, 255, 255, 0.9)',
+            borderRadius: 20,
+            padding: 32,
+            boxShadow: '0 30px 80px rgba(153, 15, 123, 0.35)',
+            backdropFilter: 'blur(12px)',
+          }}
+        >
+          {/* 🟡 LOGO */}
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <img
+              src="/chaishots-logo.png"
+              alt="Chaishots"
+              style={{
+                width: 160,
+                borderRadius: 16,
+                background: '#fde047',
+                padding: 12,
+              }}
+            />
+          </div>
+
+          <h1 style={{ textAlign: 'center', marginBottom: 24 }}>Login</h1>
+
+          <form onSubmit={handleLogin} style={{ display: 'grid', gap: 16 }}>
+            <div>
+              <label>Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: 12,
+                  borderRadius: 8,
+                  border: '1px solid #cbd5f5',
+                }}
+              />
+            </div>
+
+            <div>
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: 12,
+                  borderRadius: 8,
+                  border: '1px solid #cbd5f5',
+                }}
+              />
+            </div>
+
+            <button
+              type="submit"
+              style={{
+                marginTop: 8,
+                padding: 14,
+                borderRadius: 10,
+                border: 'none',
+                background: '#2563eb',
+                color: 'white',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              Sign in
+            </button>
+          </form>
+
+          {error && (
+            <p style={{ color: '#dc2626', marginTop: 16, textAlign: 'center' }}>
+              {error}
+            </p>
+          )}
+
+          {/* (Optional) Token debug – kept, not removed */}
+          {token && (
+            <div
+              style={{
+                marginTop: 20,
+                background: '#f1f5f9',
+                padding: 12,
+                borderRadius: 8,
+                fontSize: 12,
+              }}
+            >
+              <p>Access Token:</p>
+              <textarea rows={3} value={token} readOnly style={{ width: '100%' }} />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
