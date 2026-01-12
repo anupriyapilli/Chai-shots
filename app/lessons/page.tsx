@@ -1,9 +1,8 @@
-
 'use client';
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type Lesson = {
   id: string;
@@ -64,15 +63,12 @@ export default function LessonsPage() {
 
   return (
     <div
-  style={{
-    minHeight: '100vh',
-    background:
-      'radial-gradient(circle at top left, #fdf4ff, #eef2ff, #f8fafc)',
-  }}
->
-
-      
-
+      style={{
+        minHeight: '100vh',
+        background:
+          'radial-gradient(circle at top left, #fdf4ff, #eef2ff, #f8fafc)',
+      }}
+    >
       {/* CONTENT */}
       <div
         style={{
@@ -86,18 +82,17 @@ export default function LessonsPage() {
         }}
       >
         <div
-  style={{
-    width: '100%',
-    maxWidth: 900,
-    background: 'rgba(255, 255, 255, 0.78)', // ✅ clean glass
-    borderRadius: 28,
-    padding: 36,
-    boxShadow: '0 40px 100px rgba(15,23,42,0.35)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255,255,255,0.35)',
-  }}
->
-
+          style={{
+            width: '100%',
+            maxWidth: 900,
+            background: 'rgba(255, 255, 255, 0.78)',
+            borderRadius: 28,
+            padding: 36,
+            boxShadow: '0 40px 100px rgba(15,23,42,0.35)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.35)',
+          }}
+        >
           {/* HEADER */}
           <header
             style={{
@@ -158,7 +153,6 @@ export default function LessonsPage() {
             <button
               onClick={() =>
                 load(`${baseUrl}/lessons/latest`)
-
               }
               style={{
                 flex: 1,
@@ -175,8 +169,9 @@ export default function LessonsPage() {
             </button>
 
             <button
-              onClick={() => load(`${baseUrl}/lessons/latest`)
-}
+              onClick={() =>
+                load(`${baseUrl}/lessons`)
+              }
               style={{
                 flex: 1,
                 padding: '14px',

@@ -17,12 +17,10 @@ export default function LoginPage() {
     setToken('');
 
     try {
-      const res = await fetch(`${baseUrl}/lessons/latest`, {
-
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+  const res = await fetch(`${baseUrl}/lessons/latest`, {
+    method: 'GET',           // or omit this option
+    headers: { 'Content-Type': 'application/json' },
+  });
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
