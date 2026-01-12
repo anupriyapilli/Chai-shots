@@ -1,5 +1,8 @@
 'use client';
+
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type Lesson = {
